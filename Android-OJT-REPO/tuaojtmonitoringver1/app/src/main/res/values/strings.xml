@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">tuaojtmonitoringver1</string>
+    <string name="ICONDESC">tuaojtmonitoringICON</string>
+    <string name="open_nav">Navigation Open</string>
+    <string name="close_nav">Navigation Closed</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
