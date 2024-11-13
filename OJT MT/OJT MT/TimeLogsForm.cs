@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
+using Microsoft.VisualBasic.ApplicationServices;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -103,22 +103,23 @@ namespace OJT_MT
 
             e.Graphics.DrawString("TRINITY UNIVERSITY OF ASIA", fontTitle, Brushes.Black, 280, y+=40);
             e.Graphics.DrawString("OJT MONITORING", fontSubTitle, Brushes.Black, 340, y+=40);
-            e.Graphics.DrawString("TIME LOG REPORT", fontTitle, Brushes.Black, 341, y+=200);
+            e.Graphics.DrawString("TIME LOG REPORT", fontTitle, Brushes.Black, 320, y+=100);
 
-            e.Graphics.DrawString("Name: " + labelName.Text, fontTitle, Brushes.Black, 275, y+=60);
-            e.Graphics.DrawString("Student ID: " + labelStudentID.Text, fontRegular, Brushes.Black, 275, y += 45);
-            e.Graphics.DrawString("Contact #: " + labelContactNumber.Text, fontRegular, Brushes.Black, 275, y += 45);
+            e.Graphics.DrawString("Name: " + labelName.Text, fontTitle, Brushes.Black, 300, y+=60);
+            e.Graphics.DrawString("Student ID: " + labelStudentID.Text, fontRegular, Brushes.Black, 300, y += 45);
+            e.Graphics.DrawString("Contact #: " + labelContactNumber.Text, fontRegular, Brushes.Black, 300, y += 45);
 
+            y += 75;
             int tableX = 100;
-            int tableWidth = 500;
+            int tableWidth = 600;
             int rowHeight = 30;
-            int[] columnWidths = { 150, 200, 200, 150 };
+            int[] columnWidths = { 150, 150, 150, 150 };
 
             e.Graphics.DrawRectangle(Pens.Black, tableX, y, tableWidth, rowHeight);
-            e.Graphics.DrawString("Date", fontRegular, Brushes.Black, tableX + 5, y+ 95);
-            e.Graphics.DrawString("Time In", fontRegular, Brushes.Black, tableX + columnWidths[0] + 5, y + 95);
-            e.Graphics.DrawString("Time Out", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + 5, y + 95);
-            e.Graphics.DrawString("Remarks", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + columnWidths[2] + 5, y + 95);
+            e.Graphics.DrawString("Date", fontRegular, Brushes.Black, tableX + 5, y+ 5);
+            e.Graphics.DrawString("Time In", fontRegular, Brushes.Black, tableX + columnWidths[0] + 5, y + 5);
+            e.Graphics.DrawString("Time Out", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + 5, y + 5);
+            e.Graphics.DrawString("Remarks", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + columnWidths[2] + 5, y + 5);
 
             y += rowHeight;
 
@@ -132,10 +133,10 @@ namespace OJT_MT
                 e.Graphics.DrawRectangle(Pens.Black, tableX + columnWidths[0] + columnWidths[1], y, columnWidths[2], rowHeight);
                 e.Graphics.DrawRectangle(Pens.Black, tableX + columnWidths[0] + columnWidths[1] + columnWidths[2], y, columnWidths[3], rowHeight);
 
-                e.Graphics.DrawString(row.Cells["Date"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + 5, y + 95);
-                e.Graphics.DrawString(row.Cells["Time In"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + columnWidths[0] + 5, y + 95);
-                e.Graphics.DrawString(row.Cells["Time Out"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + 5, y + 95);
-                e.Graphics.DrawString(row.Cells["Remarks"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + columnWidths[2] + 5, y + 95);
+                e.Graphics.DrawString(Convert.ToDateTime(row.Cells["Date"].Value).ToString("yyyy-MM-dd"), fontRegular, Brushes.Black, tableX + 5, y + 5);
+                e.Graphics.DrawString(row.Cells["Time In"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + columnWidths[0] + 5, y + 5);
+                e.Graphics.DrawString(row.Cells["Time Out"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + 5, y + 5);
+                e.Graphics.DrawString(row.Cells["Remarks"].Value?.ToString() ?? "", fontRegular, Brushes.Black, tableX + columnWidths[0] + columnWidths[1] + columnWidths[2] + 5, y + 5);
 
                 y += rowHeight;
             }
