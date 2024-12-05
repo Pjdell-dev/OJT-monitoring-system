@@ -1,0 +1,103 @@
+public void loadItems() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+        user_id = sharedPreferences.getString("user_id", "");
+
+        if (!user_id.isEmpty()) {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    // Log the server response for debugging
+                    Log.d(TAG, "Server Response: " + response);
+
+                    try {
+                        // Parse the response into a JSON object
+                        JSONObject jsonResponse = new JSONObject(response);
+
+                        if (jsonResponse.has("error")) {
+                            Toast.makeText(requireActivity(), jsonResponse.getString("error"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            String studName = jsonResponse.getString("studentFirstName") + " " + jsonResponse.getString("studentLastName");
+                            String studNum = jsonResponse.getString("studentid");
+                            String supervisorName = jsonResponse.getString("supervisorFirstName") + " " + jsonResponse.getString("supervisorLastName");
+                            String contactid = jsonResponse.getString("contactid");
+
+                            namelabel.setText(studName);
+                            studentidlabel.setText(studNum);
+                            supervisorlabel.setText(supervisorName);
+                            contactidlabel.setText(contactid);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(requireActivity(), "Failed to parse response: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Log the error to see the specific message
+                    if (error.networkResponse != null) {
+                        Log.e(TAG, "Error Code: " + error.networkResponse.statusCode);
+                        Toast.makeText(requireActivity(), "Error Code: " + error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e(TAG, "Network Error: " + error.getMessage());
+                        Toast.makeText(requireActivity(), "Network Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> paramV = new HashMap<>();
+                    paramV.put("settings", "settings");
+                    paramV.put("user_id", user_id);  // This must send user_id to the PHP server
+                    Log.d(TAG, "Sending params: " + paramV.toString());
+                    return paramV;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(requireContext().getApplicationContext());
+            requestQueue.add(stringRequest);
+        } else {
+            Log.e(TAG, "User ID is empty");
+        }
+    }
+
+
+
+// For Settings
+if (isset($_POST['settings']) && $_POST['settings'] === "settings") {
+    if (isset($_POST['user_id'])) {
+        $user_id = $_POST['user_id'];
+
+        $query = "SELECT students.student_id AS studentidinfo, students.last_name AS studentLastName, 
+                         students.first_name AS studentFirstName, students.contact_number AS studentContactNum, 
+                         supervisors.last_name AS supervisorLastName, supervisors.first_name AS supervisorFirstName, 
+                  FROM `students` 
+                  JOIN supervisors ON students.supervisor_id = supervisors.supervisor_id 
+                  JOIN users ON students.user_id = users.user_id 
+                  WHERE students.user_id = ?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, 's', $user_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $response = array(
+                "studentidinfo" => $row['studentidinfo'],
+                "studentLastName" => $row['studentLastName'],
+                "studentFirstName" => $row['studentFirstName'],
+                "supervisorLastName" => $row['supervisorLastName'],
+                "supervisorFirstName" => $row['supervisorFirstName'],
+                "studentContactNum" => $row['studentContactNum']
+            );
+            echo json_encode($response);
+        } else {
+            echo json_encode(array("error" => "No data found."));
+        }
+        exit;
+    } else {
+        echo json_encode(array("error" => "User ID not set."));
+        exit;
+    }
+}
