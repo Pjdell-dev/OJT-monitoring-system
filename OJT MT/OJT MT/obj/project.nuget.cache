@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "HOMEmLtmLe8=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jnonato\\source\\repos\\OJT-monitoring-system-main\\OJT MT\\OJT MT\\OJT MT.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jnonato\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.1\\microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "C:\\Users\\jnonato\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\jnonato\\.nuget\\packages\\mysqlconnector\\2.3.7\\mysqlconnector.2.3.7.nupkg.sha512",
+    "C:\\Users\\jnonato\\.nuget\\packages\\qrcoder\\1.6.0\\qrcoder.1.6.0.nupkg.sha512",
+    "C:\\Users\\jnonato\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
